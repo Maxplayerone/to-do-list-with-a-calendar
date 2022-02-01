@@ -66,9 +66,7 @@ void CreateCalendarDay(int dayCount, char dayString[]){
 }
 
 int GetMonth(){
-
-    return 7;
-
+    return 6;
 }
 
 void TaskHandlerer(){
@@ -76,13 +74,10 @@ void TaskHandlerer(){
     printf("What task do you want to add?\n");
     char userTask[100];
     fgets(userTask, sizeof userTask, stdin);
-    //printf("Your task is: \n %s", userTask);
     char day[3];
     printf("When's the deadline? (number of the day)\n");
     scanf("%s", &day);
-    //printf("The deadline is on day %s\n", day);
 
-    //TODO: CREATE A FILE THAT CONTAINS TASKS SEPARATED BY MONTHS AND DAYS
     int currentMonthInt = GetMonth();
     char currentMonth[10] = {0};
     switch(currentMonthInt){
@@ -123,22 +118,25 @@ void TaskHandlerer(){
             strcat(currentMonth, "DECEMBER");
             break;
     }
-    //printf("The current month is %s\n", currentMonth); //works fine
+    //printf("The current month is %s\n", currentMonth);
 
-    FILE *file = fopen("tasksList.txt", "r");
+    FILE *file = fopen("tasksList.txt", "a");
     if(!file){
         printf("Couldn't open the file %s\n", file);
         exit(1);
     }
-    char line[100];
-    //TODO: THE PROGRAM READS ONLY ONE LINE
-    while(fscanf(file, "%[^\n]", line)){
-        printf("%s\n", line);  
+    char line[10];
+    while(fgets(line, sizeof line, file)){
+        //printf("%s\n", line);  
+        line[strcspn(line, "\n")] = 0;
+
         if(!strcmp(currentMonth, line)){
+            //TODO: CAN'T PUT ANY MESSAGE TO THE FILE
             printf("We found the month %s\n", line);
-            break;
-        } 
+            fprintf(file, "Message...");
+        }    
     } 
+    fclose(file);
     
     //TODO: RETURN THE DEADLINE AND CHANGE THE ICON IN THE CALENDAR
 }
