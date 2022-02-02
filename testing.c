@@ -3,9 +3,8 @@
 
 
 int main(){
-   FILE *file = fopen("testing.txt", "a");
-   fprintf(file, "\nHi");
-   fclose(file);
+   int* num;
+   printf("What is num? %d", &num);
 
     return 0;
 }
